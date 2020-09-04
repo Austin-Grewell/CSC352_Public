@@ -27,7 +27,16 @@
         [TestCase]
         public void All_caps_word()
         {
-            Assert.That(Acronym.Abbreviate("GNU Image Manipulation Program"), Is.EqualTo("GIMP"));
+            //Arrange: Gather our test data
+            string arrangeTestData = "GNU Image Manipulation Program";
+            string expectedResult = "GIMP";
+
+            //Act: Perform some action
+            string actualResult = Acronym.Abbreviate(arrangeTestData);
+
+            //Assert: Check results against what was expected
+            Assert.That(actualResult, Is.EqualTo(expectedResult));
+
         }
 
         [TestCase]

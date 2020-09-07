@@ -1,5 +1,6 @@
 ﻿namespace Acronym
 {
+    using System.Xml.Xsl;
     using NUnit.Framework;
 
     [TestFixture]
@@ -67,6 +68,19 @@
         public void Underscore_emphasis()
         {
             Assert.That(Acronym.Abbreviate("The Road _Not_ Taken"), Is.EqualTo("TRNT"));
+        }
+
+        [TestCase]
+        public void Numbers_In_Name()
+        {
+            //AAA
+            var arrange = "This 1 acronym has 2 numbers";
+
+            var actual = Acronym.Abbreviate(arrange);
+
+            var expected = "T1AH2N";
+
+            Assert.That(expected, Is.EqualTo(actual));
         }
     }
 }

@@ -27,6 +27,39 @@
 
         internal static bool IsPrime(int number)
         {
+            bool isPrime = true;
+
+            //Any Positive Integer
+            //can't be even
+            //Divisible by 1 and itself
+
+            if(number == 2)
+            {
+                isPrime = true;
+            }
+
+            else if(number > 2)
+            {
+                if (number % 2 == 0)
+                {
+                    isPrime = false;
+                }
+
+                else
+                {
+                    isPrime = true;
+
+                    for(int i = 3; i < number; i++)
+                    {
+                        if(number % i == 0)
+                        {
+                            isPrime = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
             throw new NotImplementedException();
         }
 

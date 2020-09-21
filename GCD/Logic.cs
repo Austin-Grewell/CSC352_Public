@@ -6,14 +6,26 @@ namespace GCD
     {
         public static long gcd(long x, long y)
         {
-            if (y == 0)
+            /*if (y == 0)
             {
                 return x;
             }
             else
             {
                 return gcd(y, x % y);
+            }*/
+
+            long result = 0;
+
+            for (long i = 1; i <= x; i++)
+            {
+                if (x % i == 0 && y % i == 0)
+                {
+                    result = i;
+                }
             }
+
+            return result;
         }
     }
 }

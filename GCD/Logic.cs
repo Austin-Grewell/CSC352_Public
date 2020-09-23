@@ -15,7 +15,9 @@ namespace GCD
                 return gcd(y, x % y);
             }*/
 
-            long result = 0;
+
+            //Iterative Brute Force
+            /*long result = 0;
 
             for (long i = 1; i <= x; i++)
             {
@@ -25,7 +27,21 @@ namespace GCD
                 }
             }
 
-            return result;
+            return result;*/
+
+
+            //Iterative 
+            long gcd = 0;
+
+            while (y != 0)
+            {
+                long modXY = x % y;
+                gcd = y;
+                y = x % y;
+                x = gcd;
+            }
+
+            return gcd;
         }
     }
 }

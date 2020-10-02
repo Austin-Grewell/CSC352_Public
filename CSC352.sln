@@ -26,9 +26,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Summation", "Summation\Summ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithClasses", "FunWithClasses\FunWithClasses.csproj", "{A423C08F-D4FD-41E9-A6E1-5DBAB8F92756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountDuplicates", "CountDuplicates\CountDuplicates.csproj", "{C34D1C80-5D8E-4550-A4D5-C2EE504C8353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountDuplicates", "CountDuplicates\CountDuplicates.csproj", "{C34D1C80-5D8E-4550-A4D5-C2EE504C8353}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Windows", "Calculator.Windows\Calculator.Windows.csproj", "{8235E6BB-7B2E-4F7C-A21A-AEE0002F015A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Logic", "Calculator.Logic\Calculator.Logic.csproj", "{B2D1EB79-F5E2-4BD7-8149-182D49D1EBB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Logic.UnitTests", "Calculator.Logic.UnitTests\Calculator.Logic.UnitTests.csproj", "{C08DCF44-742E-4049-A3D7-72C685BC73EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +84,14 @@ Global
 		{8235E6BB-7B2E-4F7C-A21A-AEE0002F015A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8235E6BB-7B2E-4F7C-A21A-AEE0002F015A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8235E6BB-7B2E-4F7C-A21A-AEE0002F015A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D1EB79-F5E2-4BD7-8149-182D49D1EBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D1EB79-F5E2-4BD7-8149-182D49D1EBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D1EB79-F5E2-4BD7-8149-182D49D1EBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D1EB79-F5E2-4BD7-8149-182D49D1EBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C08DCF44-742E-4049-A3D7-72C685BC73EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08DCF44-742E-4049-A3D7-72C685BC73EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08DCF44-742E-4049-A3D7-72C685BC73EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08DCF44-742E-4049-A3D7-72C685BC73EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,17 +8,12 @@ namespace Calculator.Logic
 {
     public class Parser
     {
-        public static int Parse(string equation)
-        {
-            throw new NotImplementedException();
-        }
-
         public static string ConvertToRPN(string equation)
         {
             Queue<string> output = new Queue<string>();
             Stack<string> operatorStack = new Stack<string>();
 
-            string[] splitEquation = equation.Split(new string[] { " " })
+            string[] splitEquation = equation.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string token in splitEquation)
             {
@@ -31,13 +26,16 @@ namespace Calculator.Logic
                     while
                         (
                             operatorStack.Any() &&
-                                (OperatorHasGreaterPrecidence(operatorStack.Peek(), token)
+                            (
+                                OperatorHasGreaterPrecidence(operatorStack.Peek(), token)
                                 ||
-                                (OperatorHasEqualPrecidence(operatorStack.Peek), token) && TokenIsLeftAssociative(token))
+                                (OperatorHasEqualPrecidence(operatorStack.Peek(), token) && TokenIsLeftAssociative(token))
+                            )
                         )
                     {
 
                     }
+
                     operatorStack.Push(token);
                 }
                 else if (token.Equals("("))
@@ -53,6 +51,7 @@ namespace Calculator.Logic
                             output.Enqueue(operatorStack.Pop());
                         }
 
+                        // Discard Left Paren "("
                         operatorStack.Pop();
                     }
                     catch (InvalidOperationException ex)
@@ -60,11 +59,15 @@ namespace Calculator.Logic
                         throw new InvalidOperationException("Unbalanced Parens!", ex);
                     }
                 }
-
             }
 
             while (operatorStack.Any())
             {
+                if (operatorStack.Peek() == "(")
+                {
+                    throw new InvalidOperationException("Unbalanced Parens!");
+                }
+
                 output.Enqueue(operatorStack.Pop());
             }
 
@@ -73,12 +76,20 @@ namespace Calculator.Logic
             foreach (var outputElement in output)
             {
                 sb.Append(outputElement);
+                sb.Append(" ");
             }
+
+            return sb.ToString().TrimEnd();
+
         }
 
-        private static object OperatorHasEqualPrecidence(string v, string token)
+        private static bool OperatorHasGreaterPrecidence(string v, string token)
         {
+            throw new NotImplementedException();
+        }
 
+        public static bool OperatorHasEqualPrecidence(string v, string token)
+        {
             bool hasEqualPrecidence = false;
 
             if (v == token)
@@ -125,22 +136,23 @@ namespace Calculator.Logic
     }
 }
 
-    /*public class OrderOfOperationComparer : IComparable<string>
-    {
-        public int Compare(string x, String y)
-        {
-            //E(MD)(AS)
-            throw new NotImplementedException();
-        }
+//public class OrderOfOperationComparer : IComparer<string>
+//{
+//    public int Compare(string x, string y)
+//    {
 
-        public int ConvertToValue(string op)
-        {
-            switch (op)
-            {
-                case "^":
-                    {
-                        return 3;
-                    }
-            }
-        }
-    }*/
+//        // E(MD)(AS)
+//        throw new NotImplementedException();
+//    }
+
+//    public int ConvertToValue(string op)
+//    {
+//        switch(op)
+//        {
+//            case "^":
+//                {
+//                    return 3;
+//                }
+//        }
+//    }
+//}

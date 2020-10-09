@@ -68,7 +68,7 @@
             // 
             // inputBox
             // 
-            this.inputBox.Location = new System.Drawing.Point(94, 116);
+            this.inputBox.Location = new System.Drawing.Point(94, 77);
             this.inputBox.Name = "inputBox";
             this.inputBox.Size = new System.Drawing.Size(237, 20);
             this.inputBox.TabIndex = 2;
@@ -97,7 +97,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(141, 189);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(41, 31);
+            this.button5.Size = new System.Drawing.Size(41, 32);
             this.button5.TabIndex = 5;
             this.button5.Text = "5";
             this.button5.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
             // 
             this.button6.Location = new System.Drawing.Point(188, 189);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(41, 31);
+            this.button6.Size = new System.Drawing.Size(41, 32);
             this.button6.TabIndex = 6;
             this.button6.Text = "6";
             this.button6.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@
             // 
             this.button7.Location = new System.Drawing.Point(94, 151);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(41, 31);
+            this.button7.Size = new System.Drawing.Size(41, 32);
             this.button7.TabIndex = 7;
             this.button7.Text = "7";
             this.button7.UseVisualStyleBackColor = true;
@@ -127,7 +127,7 @@
             // 
             this.button8.Location = new System.Drawing.Point(141, 151);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(41, 31);
+            this.button8.Size = new System.Drawing.Size(41, 32);
             this.button8.TabIndex = 8;
             this.button8.Text = "8";
             this.button8.UseVisualStyleBackColor = true;
@@ -137,7 +137,7 @@
             // 
             this.button9.Location = new System.Drawing.Point(188, 151);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(41, 31);
+            this.button9.Size = new System.Drawing.Size(41, 32);
             this.button9.TabIndex = 9;
             this.button9.Text = "9";
             this.button9.UseVisualStyleBackColor = true;
@@ -185,7 +185,7 @@
             // 
             this.buttonMultiply.Location = new System.Drawing.Point(235, 189);
             this.buttonMultiply.Name = "buttonMultiply";
-            this.buttonMultiply.Size = new System.Drawing.Size(41, 31);
+            this.buttonMultiply.Size = new System.Drawing.Size(41, 32);
             this.buttonMultiply.TabIndex = 14;
             this.buttonMultiply.Text = "*";
             this.buttonMultiply.UseVisualStyleBackColor = true;

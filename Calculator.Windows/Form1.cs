@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Calculator.Logic;
 
 namespace Calculator.Windows
 {
@@ -102,6 +103,15 @@ namespace Calculator.Windows
             //for now
             this.inputBox.Text += "=";
             //complete all operations
+
+            //Convert to RPN
+            string rpn = Parser.ConvertToRPN(this.textboxInput.Text);
+            this.textboxHistory.Text += rpn + Environment.NewLine;
+
+            //Evaluate RPN
+            double result = Evaluate.EvaluateRPN(rpn);
+
+            this.textboxInput.Text = result.ToString();
         }
 
         private void buttonReciprocal_Click(object sender, EventArgs e)

@@ -7,79 +7,152 @@ using System.Threading.Tasks;
 
 namespace Calculator.Logic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public class Evaluate
     {
         public static double EvaluateRPN(string rpn)
         {
-            Stack<double> evalStack = new Stack<double>();
-            string[] splitRPN = rpn.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            Stack<double> evaluatorStack = new Stack<double>();
+            string[] tokens = rpn.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (string token in splitRPN)
+            foreach (var token in tokens)
             {
-
-                if (isOperator(token))
+                if (token.Equals("+"))
                 {
-                    double y = evalStack.Pop();
-                    double x = evalStack.Pop();
-                    double z = 0;
-                    if (token == "^")
-                    {
-                        z = Math.Pow(x, y);
-                    }
-                    if (token == "+")
-                    {
-                        z = x + y;
-                    }
-                    if (token == "-")
-                    {
-                        z = x - y;
-                    }
-                    if (token == "*")
-                    {
-                        z = x * y;
-                    }
-                    if (token == "/")
-                    {
-                        z = x / y;
-                    }
-                    evalStack.Push(z);
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a + b;
+                    evaluatorStack.Push(result);
+                }
+                else if (token.Equals("-"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a - b;
+                    evaluatorStack.Push(result);
+                }
+                else if (token.Equals("/"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a / b;
+                    evaluatorStack.Push(result);
+                }
+                else if (token.Equals("*"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a * b;
+                    evaluatorStack.Push(result);
+                }
+                else if (token.Equals("^"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = Math.Pow(a, b);
+                    evaluatorStack.Push(result);
                 }
                 else
                 {
-                    evalStack.Push(double.Parse(token));
+                    double parsedDouble = double.Parse(token);
+                    evaluatorStack.Push(parsedDouble);
                 }
             }
-            return evalStack.Pop();
+
+            return evaluatorStack.Pop();
         }
 
-        //Read the postfix expression token by token
-        //  If the token is an operand, push it onto the stack
-        //  If the token is a binary operator,
-        //      Pop the two topmost operands from the stack
-        //      Apply the binary operator to the two operands
-        //      Push the result back onto the stack
-        //  Finally, the value of the whole postfix expression remains in the stack
+        public static string EvaluateRPN_StepByStepInfix(string rpn)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(Parser.ConvertToInfix(rpn));
+            Stack<double> evaluatorStack = new Stack<double>();
+            string[] tokens = rpn.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                if (tokens[i].Equals("+"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a + b;
+                    sb.AppendLine($"Add {a} to {b} to get {result}");
+                    evaluatorStack.Push(result);
+                    sb.AppendLine(Parser.ConvertToInfix(GeneateCurrentRPN(evaluatorStack, tokens.Skip(i + 1))));
+                }
+                else if (tokens[i].Equals("-"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a - b;
+                    sb.AppendLine($"Subtract {b} from {a} to get {result}");
+                    evaluatorStack.Push(result);
+                    sb.AppendLine(Parser.ConvertToInfix(GeneateCurrentRPN(evaluatorStack, tokens.Skip(i + 1))));
+                }
+                else if (tokens[i].Equals("/"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a / b;
+                    sb.AppendLine($"Divide {a} by {b} to get {result}");
+                    evaluatorStack.Push(result);
+                    sb.AppendLine(Parser.ConvertToInfix(GeneateCurrentRPN(evaluatorStack, tokens.Skip(i + 1))));
+                }
+                else if (tokens[i].Equals("*"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = a * b;
+                    sb.AppendLine($"Multiply {a} by {b} to get {result}");
+                    evaluatorStack.Push(result);
+                    sb.AppendLine(Parser.ConvertToInfix(GeneateCurrentRPN(evaluatorStack, tokens.Skip(i + 1))));
+                }
+                else if (tokens[i].Equals("^"))
+                {
+                    double b = evaluatorStack.Pop();
+                    double a = evaluatorStack.Pop();
+                    double result = Math.Pow(a, b);
+                    sb.AppendLine($"Raise {a} to the {b} Power to get {result}");
+                    evaluatorStack.Push(result);
+                    sb.AppendLine(Parser.ConvertToInfix(GeneateCurrentRPN(evaluatorStack, tokens.Skip(i + 1))));
+                }
+                else
+                {
+                    double parsedDouble = double.Parse(tokens[i]);
+                    evaluatorStack.Push(parsedDouble);
+                }
+            }
+
+            sb.Append(evaluatorStack.Pop());
+
+            return sb.ToString();
+        }
+
+        private static string GeneateCurrentRPN(Stack<double> evaluatorStack, IEnumerable<string> enumerable)
+        {
+            StringBuilder currentRPN = new StringBuilder();
+
+            foreach (var current in evaluatorStack)
+            {
+                currentRPN.Append($"{current} ");
+            }
+
+            foreach (var current in enumerable)
+            {
+                currentRPN.Append($"{current} ");
+            }
+
+            return currentRPN.ToString().Trim();
+        }
 
         public static double EvaluateInfix(string infix)
         {
-            string conversion = Parser.ConvertToRPN(infix);
-            double answer = EvaluateRPN(conversion);
-            return answer;
-        }
-
-        private static bool isOperator(string token)
-        {
-            switch (token)
-            {
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                case "^":
-                    return true;
-                default:
-                    return false;
-            }
+            string rpn = Parser.ConvertToRPN(infix);
+            return EvaluateRPN(rpn);
         }
     }
 }

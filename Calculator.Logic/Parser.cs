@@ -21,11 +21,16 @@ namespace Calculator.Logic
                 {
                     output.Enqueue(token);
                 }
+                else if (isFunction(token))
+                {
+                    operatorStack.Push(token);
+                }
                 else if (isOperator(token))
                 {
                     while
                         (
                             operatorStack.Any() &&
+                            operatorStack.Peek() != "(" &&
                             (
                                 OperatorHasGreaterPrecidence(operatorStack.Peek(), token)
                                 ||
@@ -33,7 +38,7 @@ namespace Calculator.Logic
                             )
                         )
                     {
-
+                        output.Enqueue(operatorStack.Pop());
                     }
 
                     operatorStack.Push(token);
@@ -83,9 +88,91 @@ namespace Calculator.Logic
 
         }
 
-        private static bool OperatorHasGreaterPrecidence(string v, string token)
+        public static string ConvertToInfix(string rpn)
         {
-            throw new NotImplementedException();
+            string[] splitRPN = rpn.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            Stack<string> outputStack = new Stack<string>();
+
+            for (int i = 0; i < splitRPN.Length; i++)
+            {
+                if (Parser.isOperator(splitRPN[i]))
+                {
+                    string right = outputStack.Pop();
+                    string left = outputStack.Pop();
+                    string result = $"{left} {splitRPN[i]} {right}";
+
+                    // Now do the look ahead
+                    for (int j = i + 1; j < splitRPN.Length; j++)
+                    {
+                        if (Parser.isOperator(splitRPN[j]))
+                        {
+                            if (Parser.OperatorHasGreaterPrecidence(splitRPN[j], splitRPN[i]))
+                            {
+                                result = $"( {result} )";
+                            }
+
+                            break;
+                        }
+                    }
+
+                    outputStack.Push(result);
+                }
+                else
+                {
+                    outputStack.Push(splitRPN[i]);
+                }
+            }
+
+            return outputStack.Pop();
+        }
+
+        internal static bool isFunction(string token)
+        {
+            switch (token)
+            {
+                case "sqrt":
+                    {
+                        return true;
+                    }
+                default:
+                    {
+                        return false;
+                    }
+            }
+        }
+
+        private static bool OperatorHasGreaterPrecidence(string op1, string op2)
+        {
+            int op1Precidence = GetOperatorPrecidence(op1);
+            int op2Precidence = GetOperatorPrecidence(op2);
+
+            return op1Precidence > op2Precidence;
+        }
+
+        private static int GetOperatorPrecidence(string op)
+        {
+            switch (op)
+            {
+                case "^":
+                    {
+                        return 3;
+                    }
+                case "*":
+                case "/":
+                    {
+                        return 2;
+                    }
+                case "+":
+                case "-":
+                    {
+                        return 1;
+                    }
+                default:
+                    {
+                        throw new InvalidOperationException("Unknown operator");
+                    }
+            }
         }
 
         public static bool OperatorHasEqualPrecidence(string v, string token)
@@ -116,10 +203,17 @@ namespace Calculator.Logic
 
         private static bool TokenIsLeftAssociative(string token)
         {
-            return true;
+            if (token == "^")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        private static bool isOperator(string token)
+        internal static bool isOperator(string token)
         {
             switch (token)
             {

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,46 +14,60 @@ namespace MapManager
 {
     public partial class Form1 : Form
     {
+
+        Bitmap renderedMap = null;
+        Bitmap overlayImage = null;
+        Bitmap combinedImage = null;
+        Point overlayLocation = new Point();
+
         public Form1()
         {
             InitializeComponent();
-            assetPictureBox.AllowDrop = true;
-            mapPictureBox.AllowDrop = true;
+            renderedMap = new Bitmap(mapPictureBox.Image);
         }
 
-        private void assetPictureBox_DragDrop(object sender, DragEventArgs e)
+        private void assetPictureBox_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("Drag Drop Encountered");
+            overlayImage = new Bitmap(assetPictureBox.Image);
+            mapPictureBox.Cursor = Cursors.Cross;
         }
 
-        private void assetPictureBox_DragEnter(object sender, DragEventArgs e)
+        private void ShowCombinedImage()
         {
-            Debug.WriteLine("Drag Enter Encountered");
+            if (renderedMap == null && overlayImage == null)
+            {
+                return;
+            }
+
+            mapPictureBox.Image = renderedMap;
+
+            if(combinedImage != null)
+            {
+                combinedImage.Dispose();
+                combinedImage = null;
+            }
+
+            combinedImage = new Bitmap(renderedMap);
+
+            using (Graphics combiner = Graphics.FromImage(renderedMap))
+            {
+                combiner.DrawImage(overlayImage, overlayLocation);
+            }
+
+            mapPictureBox.Image = combinedImage;
         }
 
-        private void assetPictureBox_DragLeave(object sender, EventArgs e)
+        private void mapPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine("Drag Leave Encountered");
-        }
+            if (overlayImage == null)
+            {
+                return;
+            }
 
-        private void assetPictureBox_DragOver(object sender, DragEventArgs e)
-        {
-            Debug.WriteLine("Drag Over Encountered");
-        }
-
-        private void assetPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            assetPictureBox.DoDragDrop(assetPictureBox.Image, DragDropEffects.Copy);
-        }
-
-        private void mapPictureBox_DragEnter(object sender, DragEventArgs e)
-        {
-            Debug.WriteLine("Map Drag Enter Encountered");
-        }
-
-        private void mapPictureBox_DragDrop(object sender, DragEventArgs e)
-        {
-            Debug.WriteLine("Map Drag Drop Completed");
+            overlayLocation = new Point(
+                e.X - overlayImage.Width / 2,
+                e.Y - overlayImage.Height / 2);
+            ShowCombinedImage();
         }
     }
 }

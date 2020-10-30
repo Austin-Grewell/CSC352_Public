@@ -53,7 +53,7 @@ namespace MapManager
 
             combinedImage = new Bitmap(renderedMap);
 
-            using (Graphics combiner = Graphics.FromImage(renderedMap))
+            using (Graphics combiner = Graphics.FromImage(combinedImage))
             {
                 combiner.DrawImage(overlayImage, overlayLocation);
             }
@@ -69,8 +69,8 @@ namespace MapManager
             }
 
             overlayLocation = new Point(
-                e.X - overlayImage.Width / 2,
-                e.Y - overlayImage.Height / 2);
+                (int) (e.X * scalex) - overlayImage.Width / 2,
+                (int) (e.Y * scaley) - overlayImage.Height / 2);
             ShowCombinedImage();
         }
 

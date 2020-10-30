@@ -20,14 +20,30 @@ namespace MapManager
         Bitmap combinedImage = null;
         Point overlayLocation = new Point();
 
+        List<Layer> layers = new List<Layer>();
+
         decimal scalex;
         decimal scaley;
 
         public Form1()
         {
             InitializeComponent();
-            renderedMap = new Bitmap(mapPictureBox.Image);
+            layers.Add(new Layer() { FileName = "", Current = new Bitmap(mapPictureBox.Image), Location = new Point(0, 0) });
+
+            renderedMap = RenderLayers(layers);
             mapPictureBox_Resize(this, new EventArgs());
+        }
+
+        private Bitmap RenderLayers(IEnumerable<Layer> layers)
+        {
+
+            return layers.First().Current;
+            /*Bitmap render = new Bitmap();
+
+            foreach(var layer in layers)
+            {
+
+            }*/
         }
 
         private void assetPictureBox_Click(object sender, EventArgs e)

@@ -20,10 +20,14 @@ namespace MapManager
         Bitmap combinedImage = null;
         Point overlayLocation = new Point();
 
+        decimal scalex;
+        decimal scaley;
+
         public Form1()
         {
             InitializeComponent();
             renderedMap = new Bitmap(mapPictureBox.Image);
+            mapPictureBox_Resize(this, new EventArgs());
         }
 
         private void assetPictureBox_Click(object sender, EventArgs e)
@@ -68,6 +72,12 @@ namespace MapManager
                 e.X - overlayImage.Width / 2,
                 e.Y - overlayImage.Height / 2);
             ShowCombinedImage();
+        }
+
+        private void mapPictureBox_Resize(object sender, EventArgs e)
+        {
+            scalex = Decimal.Divide(renderedMap.Width, mapPictureBox.Width);
+            scaley = Decimal.Divide(renderedMap.Height, mapPictureBox.Height);
         }
     }
 }

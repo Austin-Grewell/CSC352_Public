@@ -15,6 +15,9 @@ namespace MapManager
     public partial class Form1 : Form
     {
 
+        public partial class Form1 : Form
+    {
+
         Bitmap renderedMap = null;
         Bitmap overlayImage = null;
         Bitmap combinedImage = null;
@@ -25,25 +28,21 @@ namespace MapManager
         decimal scalex;
         decimal scaley;
 
+
         public Form1()
         {
             InitializeComponent();
             layers.Add(new Layer() { FileName = "", Current = new Bitmap(mapPictureBox.Image), Location = new Point(0, 0) });
 
             renderedMap = RenderLayers(layers);
+            mapPictureBox.Image = renderedMap;
+
             mapPictureBox_Resize(this, new EventArgs());
         }
 
         private Bitmap RenderLayers(IEnumerable<Layer> layers)
         {
-
-            return layers.First().Current;
-            /*Bitmap render = new Bitmap();
-
-            foreach(var layer in layers)
-            {
-
-            }*/
+            return Renderer.RenderLayers(layers, mapPictureBox.Width, mapPictureBox.Height);
         }
 
         private void assetPictureBox_Click(object sender, EventArgs e)
@@ -61,7 +60,7 @@ namespace MapManager
 
             mapPictureBox.Image = renderedMap;
 
-            if(combinedImage != null)
+            if (combinedImage != null)
             {
                 combinedImage.Dispose();
                 combinedImage = null;
@@ -77,6 +76,7 @@ namespace MapManager
             mapPictureBox.Image = combinedImage;
         }
 
+
         private void mapPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (overlayImage == null)
@@ -85,9 +85,12 @@ namespace MapManager
             }
 
             overlayLocation = new Point(
-                (int) (e.X * scalex) - overlayImage.Width / 2,
-                (int) (e.Y * scaley) - overlayImage.Height / 2);
+                (int)(e.X * scalex) - overlayImage.Width / 2,
+                (int)(e.Y * scaley) - overlayImage.Height / 2);
             ShowCombinedImage();
+
+            var mousePosition = new Point(e.X, e.Y);
+            Debug.WriteLine(mousePosition.ToString());
         }
 
         private void mapPictureBox_Resize(object sender, EventArgs e)

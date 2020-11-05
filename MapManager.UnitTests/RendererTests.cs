@@ -27,25 +27,42 @@ namespace MapManager.UnitTests
             string bitmapPath = Path.Combine(TestContext.CurrentContext.TestDirectory, $"{TestContext.CurrentContext.Test.Name}.bmp");
             render.Save(bitmapPath);
         }
-    }
 
-    internal class RenderLayer_ValidArguments_Tests : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
+        public void GenerateGrid()
         {
-            yield return new TestCaseData
-                (
-                new Layer[]
+            Bitmap paper = new Bitmap(1001, 1001);
+            using (Graphics g = Graphics.FromImage(paper))
+            {
+                for (int i = 0; i <= 1000; i = i + 11)
                 {
+                    g.DrawLine(new Pen(Color.Black), new Point(i, 0), new Point(i, 1000));
+                    g.DrawLine(new Pen(Color.Black), new Point(0, i), new Point(1000, i));
+                }
+
+                string savePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Grid.bmp");
+
+                paper.Save(savePath);
+            }
+        }
+
+        internal class RenderLayer_ValidArguments_Tests : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                yield return new TestCaseData
+                    (
+                    new Layer[]
+                    {
                     new Layer(@"C:\Users\ace.olszowka\Documents\GitHub\CSC352_Public\MapManager\Assets\JPG Maps\ascent_callouts.jpg"),
                     new Layer(@"C:\Users\ace.olszowka\Documents\GitHub\CSC352_Public\MapManager\Assets\Agents\Sentinels\Killjoy_artwork.png")
                     {
                         Location = new Point(390, 250)
                     }
-                },
-                1000,
-                1054
-                ).SetName("CenteredImage");
+                    },
+                    1000,
+                    1054
+                    ).SetName("CenteredImage");
+            }
         }
     }
 }

@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Logic.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapManager", "MapManager\MapManager.csproj", "{6F040A57-F1A0-40E6-9A50-EA0D0351F907}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapManager.UnitTests", "MapManager.UnitTests\MapManager.UnitTests.csproj", "{64DDD229-B1A0-47CC-881C-7564139EE24A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,10 @@ Global
 		{6F040A57-F1A0-40E6-9A50-EA0D0351F907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F040A57-F1A0-40E6-9A50-EA0D0351F907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F040A57-F1A0-40E6-9A50-EA0D0351F907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64DDD229-B1A0-47CC-881C-7564139EE24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64DDD229-B1A0-47CC-881C-7564139EE24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64DDD229-B1A0-47CC-881C-7564139EE24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64DDD229-B1A0-47CC-881C-7564139EE24A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

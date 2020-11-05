@@ -15,9 +15,6 @@ namespace MapManager
     public partial class Form1 : Form
     {
 
-        public partial class Form1 : Form
-    {
-
         Bitmap renderedMap = null;
         Bitmap overlayImage = null;
         Bitmap combinedImage = null;
@@ -34,15 +31,15 @@ namespace MapManager
             InitializeComponent();
             layers.Add(new Layer() { FileName = "", Current = new Bitmap(mapPictureBox.Image), Location = new Point(0, 0) });
 
-            renderedMap = RenderLayers(layers);
+            renderedMap = RenderLayers();
             mapPictureBox.Image = renderedMap;
 
             mapPictureBox_Resize(this, new EventArgs());
         }
 
-        private Bitmap RenderLayers(IEnumerable<Layer> layers)
+        private Bitmap RenderLayers()
         {
-            return Renderer.RenderLayers(layers, mapPictureBox.Width, mapPictureBox.Height);
+            return Renderer.RenderLayers(layers, mapPictureBox.Image.Width, mapPictureBox.Image.Height);
         }
 
         private void assetPictureBox_Click(object sender, EventArgs e)
@@ -89,14 +86,31 @@ namespace MapManager
                 (int)(e.Y * scaley) - overlayImage.Height / 2);
             ShowCombinedImage();
 
-            var mousePosition = new Point(e.X, e.Y);
-            Debug.WriteLine(mousePosition.ToString());
+            mousePosActual.Text = $"MousePosActual - X: {e.X}, Y:{e.Y}";
+            mousePosScaled.Text = $"MousePosScaled - X: {overlayLocation.X}, Y:{overlayLocation.Y}";
         }
 
         private void mapPictureBox_Resize(object sender, EventArgs e)
         {
             scalex = Decimal.Divide(renderedMap.Width, mapPictureBox.Width);
             scaley = Decimal.Divide(renderedMap.Height, mapPictureBox.Height);
+        }
+
+        private void mapPictureBox_Click(object sender, EventArgs e)
+        {
+            if(overlayImage == null)
+            {
+                return;
+            }
+
+            layers.Add(new Layer() { Current = new Bitmap(overlayImage), FileName = string.Empty, Location = overlayLocation });
+            
+            mapPictureBox.Cursor = Cursors.Default;
+            overlayImage.Dispose();
+            overlayImage = null;
+
+            renderedMap = RenderLayers();
+            mapPictureBox.Image = renderedMap;
         }
     }
 }

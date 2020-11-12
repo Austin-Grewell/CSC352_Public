@@ -19,7 +19,9 @@ namespace MapManager
         Bitmap overlayImage = null;
         Bitmap combinedImage = null;
         Point overlayLocation = new Point();
-        bool IsEditingImage = false;
+        bool isEditingImage = false;
+        static int overlayScale = 100;
+        Bitmap originalOverlayImage = null;
 
         BindingList<Layer> layers = new BindingList<Layer>();
 
@@ -50,13 +52,53 @@ namespace MapManager
 
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (IsEditingImage)
+            if (isEditingImage)
             {
-                debugStatus.Text = $"Is in Edit Mode: {e.Delta}";
+                if (originalOverlayImage == null)
+                {
+                    originalOverlayImage = new Bitmap(overlayImage);
+                }
+
+                debugStatus.Text = $"Edit Mode: ON Size: {e.Delta} Scale: {overlayScale}";
+
+                int increaseScaleBy = 1;
+
+                if(Control.ModifierKeys == Keys.Shift)
+                {
+                    increaseScaleBy = 10;
+                }
+
+                if (e.Delta > 1)
+                {
+                    // If Positive Grow Image
+                    overlayScale = overlayScale + increaseScaleBy;
+                }
+                else
+                {
+                    // Negative Shrink
+                    if(overlayScale - increaseScaleBy > 1)
+                    {
+                        overlayScale = overlayScale - increaseScaleBy;
+                    }
+                }
+
+                double scale = overlayScale * .01;
+
+                Size scaledSize = Renderer.Scale(originalOverlayImage.Size, scale);
+
+                scaledImageLabel.Text = scaledSize.ToString();
+
+                Bitmap scaledBitmap = new Bitmap(originalOverlayImage, scaledSize); 
+                // this works for increasing but once gets back to zero it breaks
+
+                overlayImage.Dispose();
+                overlayImage = null;
+                overlayImage = scaledBitmap;
+
             }
             else
             {
-                debugStatus.Text = $"Is not in Edit Mode: {e.Delta}";
+                debugStatus.Text = $"Edit Mode: OFF Size: {e.Delta}";
             }
         }
 
@@ -70,7 +112,7 @@ namespace MapManager
             overlayImage = new Bitmap(assetPictureBox.Image);
             mapPictureBox.Cursor = Cursors.Cross;
 
-            IsEditingImage = true;
+            isEditingImage = true;
         }
 
         private void ShowCombinedImage()
@@ -137,7 +179,7 @@ namespace MapManager
             renderedMap = RenderLayers();
             mapPictureBox.Image = renderedMap;
 
-            IsEditingImage = false;
+            isEditingImage = false;
         }
 
         private void layerSelectionComboBox_SelectedValueChanged(object sender, EventArgs e)

@@ -20,6 +20,8 @@ namespace MapManager
         Bitmap combinedImage = null;
         Point overlayLocation = new Point();
         bool isEditingImage = false;
+        bool isModifyingLayer = false;
+        int editinglayerIndex = -1;
         static int overlayScale = 100;
         Bitmap originalOverlayImage = null;
 
@@ -111,7 +113,6 @@ namespace MapManager
         {
             overlayImage = new Bitmap(assetPictureBox.Image);
             mapPictureBox.Cursor = Cursors.Cross;
-
             isEditingImage = true;
         }
 
@@ -151,7 +152,20 @@ namespace MapManager
             overlayLocation = new Point(
                 (int)(e.X * scalex) - overlayImage.Width / 2,
                 (int)(e.Y * scaley) - overlayImage.Height / 2);
-            ShowCombinedImage();
+
+            if (isModifyingLayer)
+            {
+                layers[editinglayerIndex].Location = overlayLocation;
+                layers[editinglayerIndex].ShouldRender = true;
+                Image previousImage = mapPictureBox.Image;
+                mapPictureBox.Image = RenderLayers();
+                previousImage.Dispose();
+                layers[editinglayerIndex].ShouldRender = false;
+            }
+            else
+            {
+                ShowCombinedImage();
+            }
 
             mousePosActual.Text = $"MousePosActual - X: {e.X}, Y:{e.Y}";
             mousePosScaled.Text = $"MousePosScaled - X: {overlayLocation.X}, Y:{overlayLocation.Y}";
@@ -170,7 +184,16 @@ namespace MapManager
                 return;
             }
 
-            layers.Add(new Layer() { Current = new Bitmap(overlayImage), FileName = string.Empty, Location = overlayLocation });
+            if (isModifyingLayer)
+            {
+                layers[editinglayerIndex].ShouldRender = true;
+                editinglayerIndex = -1;
+                isModifyingLayer = false;
+            }
+            else
+            {
+                layers.Add(new Layer() { Current = new Bitmap(overlayImage), FileName = string.Empty, Location = overlayLocation });
+            }
             
             mapPictureBox.Cursor = Cursors.Default;
             overlayImage.Dispose();
@@ -196,6 +219,17 @@ namespace MapManager
             {
                 //Do Nothing
             }
+        }
+
+        private void layerEditButton_Click(object sender, EventArgs e)
+        {
+            overlayImage = new Bitmap(layerSelectionComboBox.SelectedValue as Bitmap);
+            editinglayerIndex = layerSelectionComboBox.SelectedIndex;
+            layers[editinglayerIndex].ShouldRender = false;
+            renderedMap = RenderLayers();
+            mapPictureBox.Cursor = Cursors.Cross;
+            isEditingImage = true;
+            isModifyingLayer = true;
         }
     }
 }

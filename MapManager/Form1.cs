@@ -156,6 +156,8 @@ namespace MapManager
             if (isModifyingLayer)
             {
                 layers[editinglayerIndex].Location = overlayLocation;
+                layers[editinglayerIndex].Current.Dispose();
+                layers[editinglayerIndex].Current = new Bitmap(overlayImage);
                 layers[editinglayerIndex].ShouldRender = true;
                 Image previousImage = mapPictureBox.Image;
                 mapPictureBox.Image = RenderLayers();
@@ -201,6 +203,10 @@ namespace MapManager
 
             renderedMap = RenderLayers();
             mapPictureBox.Image = renderedMap;
+            overlayScale = 100;
+
+            originalOverlayImage?.Dispose();
+            originalOverlayImage = null;
 
             isEditingImage = false;
         }

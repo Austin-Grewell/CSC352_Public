@@ -32,10 +32,10 @@ namespace MapManager.UnitTests
 
                 new Asset[]
                 {
-                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestsConstruct1", "Flashpoint.png")),
-                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestsConstruct1", "Folder1", "Aftershock.png")),
-                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestsConstruct1", "Folder2", "Fault_Line.png")),
-                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestsConstruct1", "Folder2", "Folder3", "Rolling_Thunder.png")),
+                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestConstruct1", "Flashpoint.png")),
+                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestConstruct1", "Folder1", "Aftershock.png")),
+                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestConstruct1", "Folder2", "Fault_Line.png")),
+                    new Asset(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "AssetFactoryTestConstruct1", "Folder2", "Folder3", "Rolling_Thunder.png")),
                 }
                 );
             }

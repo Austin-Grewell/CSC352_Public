@@ -50,7 +50,7 @@ namespace MapManager
 
             //Bind the ComboBox to our Assets BindingSource
             BindingSource assetsBindingSource = new BindingSource();
-            assetsBindingSource.DataSource = AssetFactory.Construct(@"C:\Users\austin.grewell\Documents\GitHub\CSC352_Public\MapManager\Assets");
+            assetsBindingSource.DataSource = AssetFactory.Construct(@"C:\Users\locob\Documents\GitHub\CSC352_Public\MapManager\Assets");
             assetsComboBox.DataSource = assetsBindingSource.DataSource;
             assetsComboBox.DisplayMember = "Name";
             assetsComboBox.ValueMember = "FilePath";
